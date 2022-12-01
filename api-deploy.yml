@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-api-deployment
+  labels:
+    app: demo-react-mongo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: go-api-pod
+      app: demo-react-mongo-app
+  template:
+    metadata:
+      name: go-api-pod
+      labels:
+        name: go-api-pod
+        app: demo-react-mongo-app
+    spec:
+      containers:
+      - name: go-api-pod
+        image: ghcr.io/saketh-macharla/assignment-api:latest
+        env:
+            - name: MONGO_CONN_STR
+              value: "mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/langdb"
+        ports:
+        - containerPort: 8080

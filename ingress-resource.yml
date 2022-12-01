@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: react-go.tk
+      http: 
+        paths:
+          - backend:
+              service:
+                name: fe-service
+                port:
+                  number: 3000
+            pathType: Prefix
+            path: /
+    - host: backend.react-go.tk
+      http: 
+        paths:
+          - backend:
+              service:
+                name: go-api-service
+                port:
+                  number: 8080
+            pathType: Prefix
+            path: /
+          

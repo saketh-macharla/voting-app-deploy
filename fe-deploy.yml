@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fe-deployment
+  labels:
+    app: demo-react-mongo-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: fe-react-app-pod
+      app: demo-react-mongo-app
+  template:
+    metadata:
+      name: fe-react-app-pod
+      labels:
+        name: fe-react-app-pod
+        app: demo-react-mongo-app
+    spec:
+      containers:
+      - name: fe-react-app
+        image: ghcr.io/saketh-macharla/assignment-fe:latest
+        ports:
+              - containerPort: 3000

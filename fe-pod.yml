@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+      name: fe-react-app-pod
+      labels:
+        name: fe-react-app-pod
+        app: demo-react-mongo-app
+spec:
+  containers:
+  - name: fe-react-app
+    image: ghcr.io/saketh-macharla/assignment-fe:latest
+    ports:
+          - containerPort: 3000
