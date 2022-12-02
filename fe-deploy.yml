@@ -19,6 +19,9 @@ spec:
     spec:
       containers:
       - name: fe-react-app
-        image: ghcr.io/saketh-macharla/assignment-fe:latest
+        image: ghcr.io/saketh-macharla/voting-fe:1234
+        imagePullPolicy: Always
         ports:
               - containerPort: 3000
+      imagePullSecrets: 
+        - name: ghcr-secret

@@ -1,0 +1,52 @@
+name: Voting App Build
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  frontend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: voteapp-frontend-react
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+    - run: npm install --legacy-peer-deps
+    - run: npm run build --if-present
+    
+    - name: Build & push frontend Docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: voting-fe
+        tags: ${{ github.sha }}
+        registry: ghcr.io
+        dockerfile: voteapp-frontend-react/Dockerfile
+        username: ${{secrets.GIT_USERNAME}}
+        password: ${{secrets.GIT_TOKEN}}
+        directory: voteapp-frontend-react  
+        
+   
+
+  backend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: voteapp-api-go
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build & push backend Docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: voting-be
+        tags: ${{ github.sha }}
+        registry: ghcr.io
+        dockerfile: voteapp-api-go/Dockerfile
+        username: ${{secrets.GIT_USERNAME}}
+        password: ${{secrets.GIT_TOKEN}}
+        directory: voteapp-api-go
+

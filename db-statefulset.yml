@@ -23,15 +23,7 @@ spec:
           image: ghcr.io/saketh-macharla/assignment-mongo:latest
           ports:
             - containerPort: 27017
-  #         volumeMounts:
-  #           - mountPath: /data/db
-  #             name: mongodb-persistent-storage-claim
-  # volumeClaimTemplates:
-  #   - metadata:
-  #       name: mongodb-persistent-storage-claim
-  #     spec:
-  #       storageClassName: gpe-storageclass
-  #       accessModes: ["ReadWriteOnce"]
-  #       resources:
-  #         requests:
-  #           storage: 1Gi
+      # No need for this for now as the image in ghcr is public.
+      # you have to use this secret if the image is private
+      # imagePullSecrets: 
+      #   - name: ghcr-secret

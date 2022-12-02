@@ -2,12 +2,11 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY build ./build
 
-RUN npm install --legacy-peer-deps
-
+RUN npm install -g serve
 
 EXPOSE 3000
 # required for docker desktop port mapping
 
-CMD ["npm", "start"]
+CMD ["serve" ,"-s", "build"]

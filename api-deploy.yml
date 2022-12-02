@@ -19,9 +19,12 @@ spec:
     spec:
       containers:
       - name: go-api-pod
-        image: ghcr.io/saketh-macharla/assignment-api:latest
+        image: ghcr.io/saketh-macharla/voting-be:1223
+        imagePullPolicy: Always
         env:
             - name: MONGO_CONN_STR
               value: "mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/langdb"
         ports:
         - containerPort: 8080
+      imagePullSecrets: 
+        - name: ghcr-secret
