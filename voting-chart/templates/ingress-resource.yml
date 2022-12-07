@@ -7,24 +7,24 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: react-go.tk
+    - host: {{ .Values.domian }}
       http: 
         paths:
           - backend:
               service:
-                name: fe-service
+                name: {{ .Values.service.name.fe }}
                 port:
-                  number: 3000
+                  number: {{ .Values.service.ports.fe.port }}
             pathType: Prefix
             path: /
-    - host: backend.react-go.tk
+    - host: {{ .Values.subdomain }}
       http: 
         paths:
           - backend:
               service:
-                name: go-api-service
+                name: {{ .Values.service.name.api }}
                 port:
-                  number: 8080
+                  number: {{ .Values.service.ports.api.port }}
             pathType: Prefix
             path: /
           

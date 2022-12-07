@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: {{ .Values.service.name.fe }}
+  labels:
+  {{- template "common-label" }}
+spec:
+  type: {{ .Values.service.type.fe }}
+  ports:
+  {{- with .Values.service.ports }}
+    - targetPort: {{ .fe.port }}
+      port: {{ .fe.port }}
+      nodePort: {{ .fe.nodePort }}
+  {{- end }}
+  selector:
+  {{- template "fe-labels"}}

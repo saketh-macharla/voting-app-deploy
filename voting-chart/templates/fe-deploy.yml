@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deploy.name.fe }}
+  labels:
+  {{- template "common-label"}}
+spec:
+  replicas: {{ .Values.deploy.replicaCount.fe }}
+  selector:
+    matchLabels:
+    {{- include "fe-labels" . | indent 2 }}
+  template:
+    metadata:
+      name: fe-react-app-pod
+      labels:
+      {{- include "fe-labels" . | indent 4 }}
+    spec:
+      containers:
+      - name: {{ .Values.deploy.containerName.fe }}
+        image: "{{ .Values.deploy.image.repository }}/{{ .Values.deploy.image.owner }}/{{ .Values.deploy.image.imageName.fe }}:1234"
+        imagePullPolicy: {{ .Values.deploy.image.imagePullPolicy }}
+        ports:
+              - containerPort: {{ .Values.deploy.ports.fe }}
+      imagePullSecrets: 
+        - name: {{ .Values.deploy.image.imagePullSecrets }}

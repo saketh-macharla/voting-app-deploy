@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deploy.name.api }}
+  labels:
+  {{- template "common-label"}}
+spec:
+  replicas: {{ .Values.deploy.replicaCount.api }}
+  selector:
+    matchLabels:
+    {{- include "api-labels" . | indent 2 }}
+  template:
+    metadata:
+      name: go-api-pod
+      labels:
+      {{- include "api-labels" . | indent 4 }}
+    spec:
+      containers:
+      - name: {{ .Values.deploy.containerName.api }}
+        image: "{{ .Values.deploy.image.repository }}/{{ .Values.deploy.image.owner }}/{{ .Values.deploy.image.imageName.api }}:1234"
+        imagePullPolicy: {{ .Values.deploy.image.imagePullPolicy }}
+        env:
+            - name: MONGO_CONN_STR
+              value: "mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/langdb"
+        ports:
+        - containerPort: {{ .Values.deploy.ports.api }}
+      imagePullSecrets: 
+        - name: {{ .Values.deploy.image.imagePullSecrets }}

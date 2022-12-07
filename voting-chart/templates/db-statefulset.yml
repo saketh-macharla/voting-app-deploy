@@ -1,28 +1,26 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongo
+  name: {{ .Values.deploy.name.db }}
   labels:
     tier: database-statefulset
 spec:
-  replicas: 3
+  replicas: {{ .Values.deploy.replicaCount.db }}
   selector:
     matchLabels:
-      type: db
-      tier: database
+    {{- include "db-labels" . | indent 2}}
   serviceName: mongo
   template:
     metadata:
       name: mongodb
       labels:
-        type: db
-        tier: database
+      {{- include "db-labels" . | indent 4}}
     spec:
       containers:
-        - name: mongodb
-          image: ghcr.io/saketh-macharla/assignment-mongo:latest
+        - name: {{ .Values.deploy.containerName.db }}
+          image: "{{ .Values.deploy.image.repository }}/{{ .Values.deploy.image.owner }}/{{ .Values.deploy.image.imageName.db }}:latest"
           ports:
-            - containerPort: 27017
+            - containerPort: {{ .Values.deploy.ports.db }}
       # No need for this for now as the image in ghcr is public.
       # you have to use this secret if the image is private
       # imagePullSecrets: 
