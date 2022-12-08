@@ -17,8 +17,10 @@ spec:
     spec:
       containers:
       - name: {{ .Values.deploy.containerName.fe }}
-        image: "{{ .Values.deploy.image.repository }}/{{ .Values.deploy.image.owner }}/{{ .Values.deploy.image.imageName.fe }}:1234"
-        imagePullPolicy: {{ .Values.deploy.image.imagePullPolicy }}
+      {{- with .Values.deploy.image }}
+        image: "{{ .repository }}/{{ .owner }}/{{ .imageName.fe }}:{{ .tag.fe }}"
+        imagePullPolicy: {{ .imagePullPolicy }}
+      {{- end }}
         ports:
               - containerPort: {{ .Values.deploy.ports.fe }}
       imagePullSecrets: 

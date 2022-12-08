@@ -20,7 +20,9 @@ deploy:
     repository: ghcr.io
     owner: saketh-macharla
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    tag:
+      fe: 1234
+      api: 1234
     imagePullSecrets: ghcr-secret
     imagePullPolicy: Always
     imageName:

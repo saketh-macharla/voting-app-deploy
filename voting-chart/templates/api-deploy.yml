@@ -17,8 +17,10 @@ spec:
     spec:
       containers:
       - name: {{ .Values.deploy.containerName.api }}
-        image: "{{ .Values.deploy.image.repository }}/{{ .Values.deploy.image.owner }}/{{ .Values.deploy.image.imageName.api }}:1234"
-        imagePullPolicy: {{ .Values.deploy.image.imagePullPolicy }}
+        {{- with .Values.deploy.image }}
+        image: "{{ .repository }}/{{ .owner }}/{{ .imageName.api }}:{{ .tag.api }}"
+        imagePullPolicy: {{ .imagePullPolicy }}
+        {{- end }}
         env:
             - name: MONGO_CONN_STR
               value: "mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/langdb"

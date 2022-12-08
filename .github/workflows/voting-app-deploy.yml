@@ -20,8 +20,7 @@ jobs:
       run: aws eks update-kubeconfig --name MyCluster --region ${{secrets.AWS_REGION}}
     - name: Deploy
       run: |
-        kubectl set image deployment/fe-deployment fe-react-app=ghcr.io/${{secrets.GIT_USERNAME}}/voting-fe:${{ github.sha }}
-        kubectl set image deployment/go-api-deployment go-api-pod=ghcr.io/${{secrets.GIT_USERNAME}}/voting-be:${{ github.sha }}
+        helm upgrade --set deploy.image.tag.fe=${{ github.sha }} --set deploy.image.tag.api=${{ github.sha }} voting-app ./voting-chart
     - name: Deployment status
       run: |
         kubectl rollout status deployment/fe-deployment
